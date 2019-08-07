@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>双随机抽奖</title>
+    <link rel="stylesheet" href="./css/site.css">
+</head>
+
+<body>
+    <div class="main" id="app">
+        <div class="toplevel" v-show="hidden"></div>
+        <div class="redbox">
+            <div v-for="item in selectedRed" class="item" :class="{active: item.flag}" @click="RedItemClick(item)">
+                <span>{{Get2bitNum(item.num)}}</span>
+            </div>
+        </div>
+        <div class="bluebox">
+            <div v-for="item in selectedBlue" class="item" :class="{active: item.flag}" @click="BlueItemClick(item)">
+                <span>{{Get2bitNum(item.num)}}</span>
+            </div>
+        </div>
+        <div class="opsbox">
+            <div class="button" :class="{disabled: mode=='sxmode'}" @click="StartRandom">
+                <span>{{btnName}}</span>
+            </div>
+            <div class="mode">
+                <div class="mode-item">
+                    <input type="radio" name="mode" id="sxmode" value="sxmode" v-model="mode">
+                    <label for="sxmode">手选模式</label>
+                </div>
+                <div class="mode-item">
+                    <input type="radio" name="mode" id="htmode" value="htmode" v-model="mode">
+                    <label for="htmode">喊停模式</label>
+                </div>
+                <div class="mode-item">
+                    <input type="radio" name="mode" id="djmode" value="djmode" v-model="mode">
+                    <label for="djmode">点击模式</label>
+                </div>
+            </div>
+            <hr>
+            <div class="container">
+
+            </div>
+        </div>
+    </div>
+    <script src="./lib/vue.js"></script>
+    <script src="./lib/axios.min.js"></script>
+    <script src="./lib/echarts.min.js"></script>
+    <script src="./js/index.js"></script>
+</body>
+
+</html>
