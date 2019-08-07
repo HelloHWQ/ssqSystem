@@ -1,4 +1,4 @@
-const apiurl = 'http://f.apiplus.net/ssq-20.json';
+const apiurl = 'http://f.apiplus.net/ssq-7.json';
 var vm = new Vue({
     el: '#app',
     data: {
@@ -65,7 +65,7 @@ var vm = new Vue({
     },
     created: function () {
         var jsonData = localStorage.getItem('data');
-        if (jsonData == '') {
+        if (jsonData == null) {
             // 请求双色球数据
             $.ajax({
                 url: apiurl,
@@ -83,6 +83,48 @@ var vm = new Vue({
                     console.error(err)
                 }
             })
+        }
+    },
+    mounted: function () {
+        var jsondata = JSON.parse('' || localStorage.getItem('data'));
+        if (jsondata != null) {
+            var xdata = [];
+            var reddata = [];
+            var bluedata = [];
+            jsondata.data.forEach(element => {
+                xdata.push(element.expect);
+                bluedata.push(element.opencode.substr(element.opencode.indexOf('+')+1));
+                reddata.push(element.opencode.substring(0,element.opencode.indexOf('+')));
+            });
+            var options = {
+                title: {
+                    text: '近7天开奖结果'
+                },
+                legend: {
+                    data: ['蓝球']
+                },
+                tooltip: {
+                    formatter: function() {
+                        
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    data: xdata
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [
+                    {
+                        name: '蓝球',
+                        type: 'line',
+                        data: bluedata
+                    }
+                ]
+            }
+            var myChart = echarts.init(this.$refs.container);
+            myChart.setOption(options);
         }
     },
     computed: {
