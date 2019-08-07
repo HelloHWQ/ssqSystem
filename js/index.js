@@ -64,14 +64,26 @@ var vm = new Vue({
         ]
     },
     created: function () {
-        // 请求双色球数据
-        // axios.get(apiurl)
-        //     .then(function (response) {
-        //         console.log(response);
-        //     })
-        //     .catch(function (error) {
-        //         console.error(error);
-        //     });
+        var jsonData = localStorage.getItem('data');
+        if (jsonData == '') {
+            // 请求双色球数据
+            $.ajax({
+                url: apiurl,
+                type: 'get',
+                dataType: 'jsonp',
+                xhrFields: { withCredentials: true },
+                crossDomain: true,
+                success: function (data) {
+                    // 将数据缓存起来
+                    let str = JSON.stringify(data);
+                    localStorage.setItem('data', str);
+                    //console.log(data);
+                },
+                error: function (err) {
+                    console.error(err)
+                }
+            })
+        }
     },
     computed: {
         btnName() {
